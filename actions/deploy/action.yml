@@ -1,0 +1,28 @@
+name: Deploy
+description: Deploy to target environment
+
+inputs:
+  environment:
+    description: Target environment (staging or production)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Deploy
+      shell: bash
+      run: |
+        echo "=========================================="
+        echo "  Deploying to ${{ inputs.environment }}..."
+        echo "  Repository: ${{ github.repository }}"
+        echo "  Ref: ${{ github.ref_name }}"
+        echo "  SHA: ${{ github.sha }}"
+        echo "=========================================="
+        echo "Connecting to ${{ inputs.environment }} cluster..."
+        sleep 2
+        echo "Pushing artifacts..."
+        sleep 2
+        echo "Running health checks..."
+        sleep 1
+        echo ""
+        echo "Successfully deployed to ${{ inputs.environment }}!"

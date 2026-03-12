@@ -1,0 +1,22 @@
+name: Build
+description: Build the application
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      shell: bash
+      run: |
+        echo "=========================================="
+        echo "  Building application..."
+        echo "  Repository: ${{ github.repository }}"
+        echo "  Branch: ${{ github.ref_name }}"
+        echo "  Commit: ${{ github.sha }}"
+        echo "=========================================="
+        echo "Installing dependencies..."
+        sleep 2
+        echo "Compiling..."
+        sleep 2
+        echo "Build complete!"

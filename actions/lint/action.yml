@@ -1,0 +1,19 @@
+name: Lint
+description: Run linters
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Run Linter
+      shell: bash
+      run: |
+        echo "=========================================="
+        echo "  Running linters..."
+        echo "=========================================="
+        echo "Checking code style..."
+        sleep 1
+        echo "Checking for common issues..."
+        sleep 1
+        echo "No lint errors found!"

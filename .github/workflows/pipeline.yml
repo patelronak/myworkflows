@@ -1,0 +1,52 @@
+name: Pipeline
+
+on:
+  workflow_call:
+    inputs:
+      deploy-target:
+        description: 'Deployment target: staging or production'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/build@main
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/test@main
+
+  lint:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/lint@main
+
+  stage-gate:
+    if: inputs.deploy-target == 'staging'
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/stage-gate@main
+
+  stage-deploy:
+    if: inputs.deploy-target == 'staging'
+    needs: stage-gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/deploy@main
+        with:
+          environment: staging
+
+  production-deploy:
+    if: inputs.deploy-target == 'production'
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: patelronak/myworkflows/actions/deploy@main
+        with:
+          environment: production

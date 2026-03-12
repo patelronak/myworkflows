@@ -1,0 +1,17 @@
+name: Stage Gate
+description: Run stage gate checks before staging deployment
+
+runs:
+  using: composite
+  steps:
+    - name: Stage Gate Check
+      shell: bash
+      run: |
+        echo "=========================================="
+        echo "  Running stage gate checks..."
+        echo "=========================================="
+        echo "Checking feature flags..."
+        sleep 1
+        echo "Validating staging config..."
+        sleep 1
+        echo "Stage gate checks passed - ready for staging deploy!"
